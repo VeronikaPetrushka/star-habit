@@ -36,6 +36,18 @@ const Icons = ({ type, light }) => {
     case 'edit':
       imageSource = require('../assets/icons/edit.png');
       break;
+    case 'dots':
+      imageSource = require('../assets/icons/dots.png');
+      break;
+    case 'pause':
+      imageSource = require('../assets/game/pause.png');
+      break;
+    case 'left':
+      imageSource = require('../assets/game/left.png');
+      break;
+    case 'right':
+      imageSource = require('../assets/game/right.png');
+      break;
   }
 
   return (

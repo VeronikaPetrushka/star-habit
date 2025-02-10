@@ -4,8 +4,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import OnBoardingScreen from './src/screens/OnBoardingScreen';
 import HomeScreen from './src/screens/HomeScreen';
-import CreateHabitScreen from './src/screens/CreateHabitScreen'
-import HabitsListScreen from './src/screens/HabitsListScreen'
+import CreateHabitScreen from './src/screens/CreateHabitScreen';
+import HabitsListScreen from './src/screens/HabitsListScreen';
+import SaveStarScreen from './src/screens/SaveStarScreen';
+import GameScreen from './src/screens/GameScreen';
 
 enableScreens();
 
@@ -34,6 +36,16 @@ const App = () => {
                   <Stack.Screen 
                         name="HabitsListScreen" 
                         component={HabitsListScreen} 
+                        options={{ headerShown: false }} 
+                  />
+                  <Stack.Screen 
+                        name="SaveStarScreen" 
+                        component={SaveStarScreen} 
+                        options={{ headerShown: false }} 
+                  />
+                  <Stack.Screen 
+                        name="GameScreen" 
+                        component={GameScreen} 
                         options={{ headerShown: false }} 
                   />
             </Stack.Navigator>
