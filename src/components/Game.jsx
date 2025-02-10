@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, ImageBackground, Dimensions, StyleSheet, Animated, Easing, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ImageBackground, Dimensions, StyleSheet, Animated, Easing, Modal } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
+import { BlurView } from '@react-native-community/blur';
 import Icons from './Icons';
 
 const { width, height } = Dimensions.get('window');
@@ -28,6 +30,10 @@ const Game = () => {
     const fallingItemY = useRef(new Animated.Value(0)).current;
     const fallingItemX = useRef(new Animated.Value(Math.random() * (width - 50))).current;
 
+    const [pauseModalVisible, setPauseModalVisible] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+    const [finishModalVisible, setFinishModalVisible] = useState(false);
+
     useEffect(() => {
         startItemFall();
     }, []);
@@ -37,20 +43,22 @@ const Game = () => {
     }, [hp]);
 
     const startItemFall = () => {
+        if (isPaused) return;
+
         isStarRef.current = Math.random() < 0.3;
         fallingItemX.setValue(Math.random() * (width - 50));
         fallingItemY.setValue(0);
     
         Animated.timing(fallingItemY, {
             toValue: height - 310,
-            duration: 4000,
+            duration: 2000,
             easing: Easing.linear,
             useNativeDriver: true,
         }).start(({ finished }) => {
             if (finished) handleItemReachBasket();
-        });
-    };    
-    
+        });    
+    }; 
+
     const handleItemReachBasket = () => {
         const itemX = fallingItemX.__getValue();
         const basketLeft = basketXRef.current;
@@ -71,8 +79,7 @@ const Game = () => {
         console.log(hpRef.current)
     
         if (hpRef.current < 10) {
-            Alert.alert("Game Over", `Final Score: ${score}`);
-            navigation.navigate('HomeScreen');
+            setFinishModalVisible(true);
         } else {
             startItemFall();
         }
@@ -92,7 +99,37 @@ const Game = () => {
             basketXRef.current = newPos;
             return Math.min(newPos, width - basketWidth);
         });
-    };    
+    };  
+
+    const handlePause = () => {
+        setPauseModalVisible(true);
+        setIsPaused(true);
+    };
+
+    const handleResume = () => {
+        setPauseModalVisible(false);
+        setIsPaused(false);
+    }
+
+    const handleTryAgain = () => {
+        setFinishModalVisible(false);
+        setPauseModalVisible(false);
+        setIsPaused(false);
+        setScore(0);
+        setHp(100);
+        setBasketX(width / 2 - 86);
+        startItemFall();
+    };
+    
+    const handleBack = () => {
+        setFinishModalVisible(false);
+        setPauseModalVisible(false);
+        setIsPaused(false);
+        setScore(0);
+        setHp(100);
+        setBasketX(width / 2 - 86);
+        navigation.navigate('HomeScreen');
+    };
 
     return (
         <ImageBackground source={require('../assets/game/back.png')} style={{ flex: 1, justifyContent: 'space-between' }} >
@@ -101,7 +138,7 @@ const Game = () => {
                 <View style={styles.scoreContainer}>
                     <Text style={styles.scoreText}>SCORE: <Text style={styles.score}>{score}</Text></Text>
                 </View>
-                <TouchableOpacity style={styles.pauseBtn}>
+                <TouchableOpacity style={styles.pauseBtn} onPress={handlePause}>
                     <Icons type={'pause'} />
                 </TouchableOpacity>
             </View>
@@ -134,6 +171,63 @@ const Game = () => {
                     </View>
                 </View>
             </View>
+
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={pauseModalVisible}
+                onRequestClose={() => setPauseModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <BlurView style={styles.blurBackground} blurType="dark" blurAmount={4} />
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>PAUSE</Text>
+                        <TouchableOpacity style={styles.addBtn} onPress={handleResume}>
+                            <LinearGradient
+                                colors={['#c1a257', '#fff8ca']}
+                                style={styles.btn} 
+                                start={{ x: 1, y: 0 }}
+                                end={{ x: 0, y: 0 }}
+                            >
+                                <Text style={styles.btnText}>Resume</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleBack}>
+                        <Text style={{ color: '#8a650d', fontSize: 17, alignSelf: 'center', marginTop: 10}}>BACK HOME</Text>
+                    </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            {finishModalVisible && (
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={finishModalVisible}
+                    onRequestClose={() => setFinishModalVisible(false)}
+                >
+                    <View style={styles.modalContainer}>
+                        <BlurView style={styles.blurBackground} blurType="dark" blurAmount={4} />
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalTitle}>THE STAR HAS GONE OUT!</Text>
+                            <Text style={styles.modalText}>Your score: {score}</Text>
+                            <TouchableOpacity style={styles.addBtn} onPress={handleTryAgain}>
+                                <LinearGradient
+                                    colors={['#c1a257', '#fff8ca']}
+                                    style={styles.btn} 
+                                    start={{ x: 1, y: 0 }}
+                                    end={{ x: 0, y: 0 }}
+                                >
+                                    <Text style={styles.btnText}>Restart</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleBack}>
+                            <Text style={{ color: '#8a650d', fontSize: 17, alignSelf: 'center', marginTop: 10}}>BACK HOME</Text>
+                        </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+            )}
 
         </ImageBackground>
     );
@@ -205,7 +299,70 @@ const styles = StyleSheet.create({
         height: 50,
         position: 'absolute',
         resizeMode: 'contain'
-    }
+    },
+
+    modalContainer: {
+        flex: 1,
+        alignItems: 'center',
+        paddingTop: 100,
+        zIndex: 1,
+    },
+
+    blurBackground: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 1,
+    },
+
+    modalContent: {
+        backgroundColor: '#000',
+        borderWidth: 1,
+        borderColor: '#8a650d',
+        paddingHorizontal: 64,
+        paddingVertical: 53,
+        borderRadius: 15,
+        width: '85%',
+        zIndex: 2,
+    },
+
+    modalTitle: {
+        fontWeight: '500',
+        fontSize: 26,
+        color: '#fff',
+        lineHeight: 31.5,
+        marginBottom: 46,
+        textAlign: 'center'
+      },
+
+      modalText: {
+        fontWeight: '400',
+        fontSize: 20,
+        color: '#fff',
+        lineHeight: 24.2,
+        marginBottom: 60,
+        textAlign: 'center'
+      },
+
+      btn: {
+        width: '100%',
+        height: height * 0.081,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 15,
+        flexDirection: 'row',
+        marginBottom: 13
+    },
+
+    btnText: {
+        fontWeight: '500',
+        fontSize: 24,
+        color: '#241b03',
+        lineHeight: 29
+    },
+
 });
 
 export default Game;
