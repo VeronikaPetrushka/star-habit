@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text,TouchableOpacity, Image, StyleSheet, Dimensions, Modal } from "react-native"
-import LinearGradient from 'react-native-linear-gradient';
+import { View, Text,TouchableOpacity, Image, StyleSheet, Dimensions, Modal, ImageBackground } from "react-native"
 import { useNavigation } from "@react-navigation/native";
 import { BlurView } from '@react-native-community/blur';
 import Icons from "./Icons";
@@ -12,65 +11,57 @@ const SaveStar = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/loader.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            <Image source={require('../assets/decor/star.png')} style={styles.image} />
-            <Text style={styles.title}>SAVE THE STAR</Text>
+                <Image source={require('../assets/decor/star.png')} style={styles.image} />
+                <Text style={styles.title}>SAVE THE STAR</Text>
 
-            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('GameScreen')}>
-                <LinearGradient
-                    colors={['#c1a257', '#fff8ca']}
-                    style={styles.btn} 
-                    start={{ x: 1, y: 0 }}
-                    end={{ x: 0, y: 0 }}
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('GameScreen')}>
+                    <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={styles.btnText}>Start play</Text>
+                        <View style={{width: 27, height: 27, marginLeft: 15}}>
+                            <Icons type={'game'} />
+                        </View>
+                    </ImageBackground>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.btn} onPress={() => setIsModalVisible(true)}>
+                    <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={styles.btnText}>How to play</Text>
+                        <View style={{width: 27, height: 27, marginLeft: 15}}>
+                            <Icons type={'dots'} />
+                        </View>
+                    </ImageBackground>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.goBack('')}>
+                    <Text style={{fontSize: 24, fontWeight: '500', color: '#fff', marginTop: 20}}>Back home</Text>
+                </TouchableOpacity>
+
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={isModalVisible}
+                    onRequestClose={() => setIsModalVisible(false)}
                 >
-                    <Text style={styles.btnText}>Start play</Text>
-                    <View style={{width: 27, height: 27, marginLeft: 15}}>
-                        <Icons type={'game'} />
+                    <View style={styles.modalContainer}>
+                        <BlurView style={styles.blurBackground} blurType="dark" blurAmount={4} />
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalTitle}>How to play</Text>
+                            <Text style={styles.modalText}>- Move the net to catch rocks and space junk.</Text>
+                            <Text style={styles.modalText}>- Don't let them fall on the star!</Text>
+                            <Text style={styles.modalText}>- The longer you protect the star, the more points you get!</Text>
+
+                            <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                                <Text style={{ color: '#8a650d', fontSize: 17, alignSelf: 'center', marginTop: 10}}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </LinearGradient>
-            </TouchableOpacity>
+                </Modal>
 
-            <TouchableOpacity style={styles.btn} onPress={() => setIsModalVisible(true)}>
-                <LinearGradient
-                    colors={['#c1a257', '#fff8ca']}
-                    style={styles.btn} 
-                    start={{ x: 1, y: 0 }}
-                    end={{ x: 0, y: 0 }}
-                >
-                    <Text style={styles.btnText}>How to play</Text>
-                    <View style={{width: 27, height: 27, marginLeft: 15}}>
-                        <Icons type={'dots'} />
-                    </View>
-                </LinearGradient>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => navigation.goBack('')}>
-                <Text style={{fontSize: 24, fontWeight: '500', color: '#fff', marginTop: 50}}>Back home</Text>
-            </TouchableOpacity>
-
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={isModalVisible}
-                onRequestClose={() => setIsModalVisible(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <BlurView style={styles.blurBackground} blurType="dark" blurAmount={4} />
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>How to play</Text>
-                        <Text style={styles.modalText}>- Move the net to catch rocks and space junk.</Text>
-                        <Text style={styles.modalText}>- Don't let them fall on the star!</Text>
-                        <Text style={styles.modalText}>- The longer you protect the star, the more points you get!</Text>
-
-                        <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                            <Text style={{ color: '#8a650d', fontSize: 17, alignSelf: 'center', marginTop: 10}}>Close</Text>
-                        </TouchableOpacity>
-                    </View>
                 </View>
-            </Modal>
-
-        </View>
+        </ImageBackground>
     )
 };
 
@@ -79,7 +70,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#000',
         padding: 25,
         paddingTop: height * 0.07
     },
@@ -96,13 +86,13 @@ const styles = StyleSheet.create({
         fontSize: 32,
         color: '#c1a257',
         textAlign: 'center',
-        marginBottom: 50,
+        marginBottom: 30,
         lineHeight: 38.73
     },
 
     btn: {
         width: '100%',
-        height: height * 0.081,
+        height: height * 0.13,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 15,
@@ -139,7 +129,6 @@ const styles = StyleSheet.create({
         borderColor: '#8a650d',
         paddingHorizontal: 30,
         paddingVertical: 34,
-        borderRadius: 15,
         width: '85%',
         zIndex: 2,
     },

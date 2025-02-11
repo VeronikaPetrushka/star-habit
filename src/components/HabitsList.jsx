@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text,TouchableOpacity, StyleSheet, Dimensions, Modal, ScrollView, TextInput } from "react-native"
+import { View, Text,TouchableOpacity, StyleSheet, Dimensions, Modal, ScrollView, TextInput, ImageBackground } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
@@ -70,101 +70,103 @@ const HabitsList = ({ habitName }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/loader.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            <View style={{alignItems: 'center', flexDirection: 'row', marginBottom: height * 0.05, width: '100%'}}>
-                <TouchableOpacity style={{width: 47, height: 47, marginRight: 53}} onPress={() => navigation.navigate('HomeScreen')}>
-                    <Icons type={'back'} />
-                </TouchableOpacity>
-                <Text style={styles.title}>LIST OF HABITS</Text>
-            </View>
+                <View style={{alignItems: 'center', flexDirection: 'row', marginBottom: height * 0.05, width: '100%'}}>
+                    <TouchableOpacity style={{width: 47, height: 47, marginRight: 53}} onPress={() => navigation.navigate('HomeScreen')}>
+                        <Icons type={'back'} />
+                    </TouchableOpacity>
+                    <Text style={styles.title}>LIST OF HABITS</Text>
+                </View>
 
-            {
-                filteredHabits.length > 0 && (
-                    <TextInput
-                        style={styles.searchBar}
-                        placeholder="Search habits..."
-                        placeholderTextColor="#999"
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                    />    
-                )
-            }
+                {
+                    filteredHabits.length > 0 && (
+                        <TextInput
+                            style={styles.searchBar}
+                            placeholder="Search habits..."
+                            placeholderTextColor="#999"
+                            value={searchQuery}
+                            onChangeText={setSearchQuery}
+                        />    
+                    )
+                }
 
-            {
-                filteredHabits.length > 0 ? (
-                    <ScrollView style={{width: '100%'}}>
-                        {
-                            filteredHabits.map((habit, index) => (
-                                <View key={index} style={styles.card}>
-                                    <View style={{width: '100%', alignItems: 'flex-star', flexDirection: 'row', marginBottom: 34}}>
-                                        <ProgressBar stars={habit.stars} />
-                                        <View style={{marginLeft: 20, width: '70%'}}>
-                                            <Text style={styles.cardName} numberOfLines={1} ellipsizeMode='tail'>{habit.name}</Text>
-                                            <Text style={styles.cardText}>Execution frequency: {habit.frequency}</Text>
+                {
+                    filteredHabits.length > 0 ? (
+                        <ScrollView style={{width: '100%'}}>
+                            {
+                                filteredHabits.map((habit, index) => (
+                                    <View key={index} style={styles.card}>
+                                        <View style={{width: '100%', alignItems: 'flex-star', flexDirection: 'row', marginBottom: 34}}>
+                                            <ProgressBar stars={habit.stars} />
+                                            <View style={{marginLeft: 20, width: '70%'}}>
+                                                <Text style={styles.cardName} numberOfLines={1} ellipsizeMode='tail'>{habit.name}</Text>
+                                                <Text style={styles.cardText}>Execution frequency: {habit.frequency}</Text>
+                                            </View>
+                                        </View>
+                                        <View style={{width: '100%', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                            <TouchableOpacity style={styles.btn} onPress={() => handleDelete(habit.name)}>
+                                                <LinearGradient
+                                                    colors={['#c1a257', '#fff8ca']}
+                                                    style={styles.btn} 
+                                                    start={{ x: 1, y: 0 }}
+                                                    end={{ x: 0, y: 0 }}
+                                                >
+                                                    <Text style={styles.btnText}>Delete</Text>
+                                                    <View style={{width: 24, height: 24, marginLeft: 15}}>
+                                                        <Icons type={'delete'} />
+                                                    </View>
+                                                </LinearGradient>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CreateHabitScreen', {habitToEdit: habit})}>
+                                                <LinearGradient
+                                                    colors={['#c1a257', '#fff8ca']}
+                                                    style={styles.btn} 
+                                                    start={{ x: 1, y: 0 }}
+                                                    end={{ x: 0, y: 0 }}
+                                                >
+                                                    <Text style={styles.btnText}>Edit</Text>
+                                                    <View style={{width: 24, height: 24, marginLeft: 15}}>
+                                                        <Icons type={'edit'} />
+                                                    </View>
+                                                </LinearGradient>
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
-                                    <View style={{width: '100%', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                        <TouchableOpacity style={styles.btn} onPress={() => handleDelete(habit.name)}>
-                                            <LinearGradient
-                                                colors={['#c1a257', '#fff8ca']}
-                                                style={styles.btn} 
-                                                start={{ x: 1, y: 0 }}
-                                                end={{ x: 0, y: 0 }}
-                                            >
-                                                <Text style={styles.btnText}>Delete</Text>
-                                                <View style={{width: 24, height: 24, marginLeft: 15}}>
-                                                    <Icons type={'delete'} />
-                                                </View>
-                                            </LinearGradient>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CreateHabitScreen', {habitToEdit: habit})}>
-                                            <LinearGradient
-                                                colors={['#c1a257', '#fff8ca']}
-                                                style={styles.btn} 
-                                                start={{ x: 1, y: 0 }}
-                                                end={{ x: 0, y: 0 }}
-                                            >
-                                                <Text style={styles.btnText}>Edit</Text>
-                                                <View style={{width: 24, height: 24, marginLeft: 15}}>
-                                                    <Icons type={'edit'} />
-                                                </View>
-                                            </LinearGradient>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            ))
-                        }
-                        <View style={{height: 100}} />
-                    </ScrollView>
-                ) : (
-                    <Text style={styles.noText}>There is no habits right now</Text>
-                )
-            }
+                                ))
+                            }
+                            <View style={{height: 100}} />
+                        </ScrollView>
+                    ) : (
+                        <Text style={styles.noText}>There is no habits right now</Text>
+                    )
+                }
 
-            {isModalVisible && (
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={isModalVisible}
-                    onRequestClose={handleCloseModal}
-                >
-                    <View style={styles.modalContainer}>
-                        <BlurView style={styles.blurBackground} blurType="dark" blurAmount={4} />
-                        <View style={styles.modalContent}>
-                            <Text style={styles.modalTitle}>{editedHabit}</Text>
-                            <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                <View style={{ width: 24, height: 24, marginRight: 5 }}>
-                                    <Icons type={'selected'} light />
+                {isModalVisible && (
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={isModalVisible}
+                        onRequestClose={handleCloseModal}
+                    >
+                        <View style={styles.modalContainer}>
+                            <BlurView style={styles.blurBackground} blurType="dark" blurAmount={4} />
+                            <View style={styles.modalContent}>
+                                <Text style={styles.modalTitle}>{editedHabit}</Text>
+                                <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                    <View style={{ width: 24, height: 24, marginRight: 5 }}>
+                                        <Icons type={'selected'} light />
+                                    </View>
+                                    <Text style={styles.modalText}>The habit has been edited</Text>
                                 </View>
-                                <Text style={styles.modalText}>The habit has been edited</Text>
                             </View>
                         </View>
-                    </View>
-                </Modal>
-            )}
+                    </Modal>
+                )}
 
-        </View>
+                </View>
+        </ImageBackground>
     )
 };
 
@@ -173,7 +175,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#000',
         padding: 25,
         paddingTop: height * 0.07
     },
@@ -188,7 +189,6 @@ const styles = StyleSheet.create({
     searchBar: {
         width: '100%',
         padding: 22,
-        borderRadius: 15,
         borderWidth: 1,
         borderColor: '#8a650D',
         color: '#fff',
@@ -203,7 +203,6 @@ const styles = StyleSheet.create({
         height: 43,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 15,
         flexDirection: 'row',
     },
 
@@ -236,7 +235,6 @@ const styles = StyleSheet.create({
         borderColor: '#8a650d',
         paddingHorizontal: 30,
         paddingVertical: 34,
-        borderRadius: 15,
         width: '85%',
         zIndex: 2,
         alignItems: 'center'
@@ -261,9 +259,9 @@ const styles = StyleSheet.create({
       card: {
         width: '100%',
         padding: 18,
-        borderRadius: 15,
         borderWidth: 1,
         borderColor: '#8a650d',
+        backgroundColor: 'rgba(36, 27, 3, 0.6)',
         alignItems: 'center',
         marginBottom: 10,
       },

@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { View, Text,TouchableOpacity, Image, StyleSheet, Dimensions } from "react-native"
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
+import Icons from './Icons';
 
 const { height } = Dimensions.get('window');
 
@@ -14,7 +15,7 @@ const OnBoarding = () => {
         setComponentIndex((prevIndex) => (prevIndex + 1) % 3);
 
         if(componentIndex === 2) {
-            navigation.navigate('HomeScreeen')
+            navigation.navigate('HomeScreen')
         }
     };
 
@@ -43,7 +44,7 @@ const OnBoarding = () => {
                  
                 {
                    componentIndex === 0 && (
-                    <Text style={styles.title}>Welcome to <Text style={{color: '#c1a257'}}>Star Habit</Text></Text>
+                    <Text style={styles.title}>Welcome to <Text style={{color: '#c1a257'}}>Star Leap</Text></Text>
                    ) 
                 }
 
@@ -61,21 +62,22 @@ const OnBoarding = () => {
                     }
                 </Text>
 
-
-                <TouchableOpacity style={styles.btn} onPress={handleButtonPress}>
-                    <LinearGradient
-                        colors={['#c1a257', '#fff8ca']}
-                        style={styles.btn} 
-                        start={{ x: 1, y: 0 }}
-                        end={{ x: 0, y: 0 }}
-                    >
+                <View style={{width: '100%', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', marginBottom: 50}}>
+                    <TouchableOpacity style={styles.btn} onPress={handleButtonPress}>
+                        <Image source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', resizeMode: 'contain'}} />
                         <Text style={styles.btnText}>{
                             componentIndex === 0 ? 'Next' : 
                             componentIndex === 1 ? 'Continue' :
                             'Start'
                         }</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.btn, {width: 111, height: 92, marginLeft: -20}]} onPress={handleButtonPress}>
+                        <Image source={require('../assets/buttons/right.png')} style={{width: '100%', height: '100%', resizeMode: 'contain'}} />
+                        <View style={{width: 49, height: 49, position: 'absolute', top: 25, right: 20}}>
+                            <Icons type={componentIndex === 3 ? 'rocket' : 'next'} />
+                        </View>
+                    </TouchableOpacity>
+                </View>
 
             </View>
 
@@ -118,18 +120,19 @@ const styles = StyleSheet.create({
     },
 
     btn: {
-        width: 190,
-        height: 81,
+        width: 250,
+        height: 99,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 15,
     },
 
     btnText: {
         fontWeight: '500',
         fontSize: 24,
         color: '#241b03',
-        lineHeight: 29
+        lineHeight: 29,
+        position: 'absolute',
+        top: 35,
     },
 
 })

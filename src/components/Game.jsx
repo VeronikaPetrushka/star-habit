@@ -351,7 +351,6 @@ const styles = StyleSheet.create({
         height: height * 0.081,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 15,
         flexDirection: 'row',
         marginBottom: 13
     },

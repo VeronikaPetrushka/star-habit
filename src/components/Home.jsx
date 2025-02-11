@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text,TouchableOpacity, Image, StyleSheet, Dimensions, Modal, ScrollView } from "react-native"
+import { View, Text,TouchableOpacity, Image, StyleSheet, Dimensions, Modal, ScrollView, ImageBackground } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
@@ -63,114 +63,100 @@ const Home = ({ habitName }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/loader.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            {
-                habits.length > 0 ? (
-                    <View style={{width: '100%', alignItems: 'center'}}>
-                        <Image source={require('../assets/decor/star.png')} style={{width: 150, height: height * 0.15, resizeMode: 'contain', marginBottom: 10}} />
-                        <Text style={[styles.title, {fontSize: 19, lineHeight: 23, marginBottom: height * 0.04}]}>STAR HABIT</Text>
-                        <Text style={[styles.subTitle, {marginBottom: 20, alignSelf: 'flex-start'}]}>PROGRESS:</Text>
-                        <ScrollView style={{width: '100%', height: 200, marginBottom: 30}}>
-                            {
-                                habits.map((habit, index) => (
-                                    <View key={index} style={styles.card}>
-                                        <ProgressBar stars={habit.stars} />
-                                        <View style={{width: 150, marginLeft: 20}}>
-                                            <Text style={styles.cardName} numberOfLines={1} ellipsizeMode='tail'>{habit.name}</Text>
-                                            <Text style={styles.cardText}>to add a star for the day click the button</Text>
+                <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', alignSelf: 'flex-start', marginBottom: 10}}>
+                    <Image source={require('../assets/decor/star.png')} style={{width: 114, height: 114, resizeMode: 'contain'}} />
+                    <Text style={styles.title}>GET USED TO THE GOOD WITH US!</Text>
+                </View>
+
+                <View style={{flexGrow: 1}} />
+
+                {
+                    habits.length > 0 && (
+                        <View style={{width: '100%', alignItems: 'center'}}>
+                            <Text style={[styles.subTitle, {marginBottom: 20, alignSelf: 'flex-start'}]}>PROGRESS:</Text>
+                            <ScrollView style={{width: '100%', height: 120, marginBottom: 30}}>
+                                {
+                                    habits.map((habit, index) => (
+                                        <View key={index} style={styles.card}>
+                                            <ProgressBar stars={habit.stars} />
+                                            <View style={{width: 150, marginLeft: 20}}>
+                                                <Text style={styles.cardName} numberOfLines={1} ellipsizeMode='tail'>{habit.name}</Text>
+                                                <Text style={styles.cardText}>to add a star for the day click the button</Text>
+                                            </View>
+                                            <TouchableOpacity style={styles.addBtn} onPress={() => updateHabitStars(index)}>
+                                                <LinearGradient
+                                                    colors={['#c1a257', '#fff8ca']}
+                                                    style={styles.addBtn} 
+                                                    start={{ x: 1, y: 0 }}
+                                                    end={{ x: 0, y: 0 }}
+                                                >
+                                                    <View style={{width: 24, height: 24}}>
+                                                        <Icons type={'plus'} />
+                                                    </View>
+                                                </LinearGradient>
+                                            </TouchableOpacity>
                                         </View>
-                                        <TouchableOpacity style={styles.addBtn} onPress={() => updateHabitStars(index)}>
-                                            <LinearGradient
-                                                colors={['#c1a257', '#fff8ca']}
-                                                style={styles.addBtn} 
-                                                start={{ x: 1, y: 0 }}
-                                                end={{ x: 0, y: 0 }}
-                                            >
-                                                <View style={{width: 24, height: 24}}>
-                                                    <Icons type={'plus'} />
-                                                </View>
-                                            </LinearGradient>
-                                        </TouchableOpacity>
+                                    ))
+                                }
+                            </ScrollView>
+                        </View>
+                    )
+                }
+
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CreateHabitScreen')}>
+                    <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={styles.btnText}>Create a habit</Text>
+                        <View style={{width: 27, height: 27, marginLeft: 15}}>
+                            <Icons type={'plus'} />
+                        </View>
+                    </ImageBackground>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('HabitsListScreen')}>
+                    <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={styles.btnText}>List of habits</Text>
+                        <View style={{width: 27, height: 27, marginLeft: 15}}>
+                            <Icons type={'list'} />
+                        </View>
+                    </ImageBackground>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SaveStarScreen')}>
+                    <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={styles.btnText}>Save the star</Text>
+                        <View style={{width: 27, height: 27, marginLeft: 15}}>
+                            <Icons type={'game'} />
+                        </View>
+                    </ImageBackground>
+                </TouchableOpacity>
+
+                {isModalVisible && (
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={isModalVisible}
+                        onRequestClose={handleCloseModal}
+                    >
+                        <View style={styles.modalContainer}>
+                            <BlurView style={styles.blurBackground} blurType="dark" blurAmount={4} />
+                            <View style={styles.modalContent}>
+                                <Text style={styles.modalTitle}>{createdHabit}</Text>
+                                <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                    <View style={{ width: 24, height: 24, marginRight: 5 }}>
+                                        <Icons type={'selected'} light />
                                     </View>
-                                ))
-                            }
-                        </ScrollView>
-                    </View>
-                ) : (
-                    <View style={{width: '100%', alignItems: 'center'}}>
-                        <Image source={require('../assets/decor/star.png')} style={styles.image} />
-                        <Text style={styles.title}>STAR HABIT</Text>
-                        <Text style={styles.subTitle}>GET USED TO GOOD WITH US!</Text>
-                    </View>
-                )
-            }
-
-            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CreateHabitScreen')}>
-                <LinearGradient
-                    colors={['#c1a257', '#fff8ca']}
-                    style={styles.btn} 
-                    start={{ x: 1, y: 0 }}
-                    end={{ x: 0, y: 0 }}
-                >
-                    <Text style={styles.btnText}>Create a habit</Text>
-                    <View style={{width: 27, height: 27, marginLeft: 15}}>
-                        <Icons type={'plus'} />
-                    </View>
-                </LinearGradient>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('HabitsListScreen')}>
-                <LinearGradient
-                    colors={['#c1a257', '#fff8ca']}
-                    style={styles.btn} 
-                    start={{ x: 1, y: 0 }}
-                    end={{ x: 0, y: 0 }}
-                >
-                    <Text style={styles.btnText}>List of habits</Text>
-                    <View style={{width: 27, height: 27, marginLeft: 15}}>
-                        <Icons type={'list'} />
-                    </View>
-                </LinearGradient>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SaveStarScreen')}>
-                <LinearGradient
-                    colors={['#c1a257', '#fff8ca']}
-                    style={styles.btn} 
-                    start={{ x: 1, y: 0 }}
-                    end={{ x: 0, y: 0 }}
-                >
-                    <Text style={styles.btnText}>Save the star</Text>
-                    <View style={{width: 27, height: 27, marginLeft: 15}}>
-                        <Icons type={'game'} />
-                    </View>
-                </LinearGradient>
-            </TouchableOpacity>
-
-            {isModalVisible && (
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={isModalVisible}
-                    onRequestClose={handleCloseModal}
-                >
-                    <View style={styles.modalContainer}>
-                        <BlurView style={styles.blurBackground} blurType="dark" blurAmount={4} />
-                        <View style={styles.modalContent}>
-                            <Text style={styles.modalTitle}>{createdHabit}</Text>
-                            <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                <View style={{ width: 24, height: 24, marginRight: 5 }}>
-                                    <Icons type={'selected'} light />
+                                    <Text style={styles.modalText}>Habit successfully created</Text>
                                 </View>
-                                <Text style={styles.modalText}>Habit successfully created</Text>
                             </View>
                         </View>
-                    </View>
-                </Modal>
-            )}
+                    </Modal>
+                )}
 
-        </View>
+                </View>
+        </ImageBackground>
     )
 };
 
@@ -179,25 +165,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#000',
         padding: 25,
         paddingTop: height * 0.07
     },
 
-    image: {
-        width: 244,
-        height: 244,
-        resizeMode: 'contain',
-        marginBottom: 15
-    },
-
     title: {
-        fontWeight: '500',
-        fontSize: 32,
-        color: '#c1a257',
-        textAlign: 'center',
-        marginBottom: 20,
-        lineHeight: 38.73
+        fontWeight: '700',
+        fontSize: 24,
+        color: '#fff',
+        lineHeight: 29.05,
+        width: '63%'
     },
 
     subTitle: {
@@ -211,11 +188,9 @@ const styles = StyleSheet.create({
 
     btn: {
         width: '100%',
-        height: height * 0.081,
+        height: height * 0.13,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 15,
-        flexDirection: 'row',
         marginBottom: 13
     },
 
@@ -273,9 +248,9 @@ const styles = StyleSheet.create({
       card: {
         width: '100%',
         padding: 18,
-        borderRadius: 15,
         borderWidth: 1,
         borderColor: '#8a650d',
+        backgroundColor: 'rgba(36, 27, 3, 0.6)',
         alignItems: 'center',
         flexDirection: 'row',
         marginBottom: 10,
@@ -303,7 +278,6 @@ const styles = StyleSheet.create({
         height: 43,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 15,
         alignSelf: 'flex-end'
       }
 
