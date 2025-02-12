@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from "@react-navigation/native";
 import Icons from "./Icons";
 
-const { height, width } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 const CreateHabit = ({ habitToEdit }) => {
     const navigation = useNavigation();
