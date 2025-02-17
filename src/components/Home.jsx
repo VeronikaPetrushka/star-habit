@@ -124,15 +124,6 @@ const Home = ({ habitName }) => {
                     </ImageBackground>
                 </TouchableOpacity>
 
-                {/* <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SaveStarScreen')}>
-                    <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={styles.btnText}>Save the star</Text>
-                        <View style={{width: 27, height: 27, marginLeft: 15}}>
-                            <Icons type={'game'} />
-                        </View>
-                    </ImageBackground>
-                </TouchableOpacity>
- */}
                 {isModalVisible && (
                     <Modal
                         animationType="fade"
