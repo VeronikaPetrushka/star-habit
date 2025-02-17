@@ -106,7 +106,7 @@ const Home = ({ habitName }) => {
                     )
                 }
 
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CreateHabitScreen')}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CreateHabitScreeen')}>
                     <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={styles.btnText}>Create a habit</Text>
                         <View style={{width: 27, height: 27, marginLeft: 15}}>
@@ -115,7 +115,7 @@ const Home = ({ habitName }) => {
                     </ImageBackground>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('HabitsListScreen')}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('HabitsListScreeen')}>
                     <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={styles.btnText}>List of habits</Text>
                         <View style={{width: 27, height: 27, marginLeft: 15}}>
