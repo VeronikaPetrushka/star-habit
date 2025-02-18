@@ -25,13 +25,13 @@ const subtitles = [
 
 const buttonTexts = ["Next", "Continue", "Start"];
 
-const OnBoarding = () => {
+const Welcome = () => {
     const navigation = useNavigation();
     const [step, setStep] = useState(0);
 
     const handleNext = () => {
         if (step === 2) {
-            navigation.navigate("HomeScreen");
+            navigation.navigate("HMScreen");
         } else {
             setStep((prev) => prev + 1);
         }
@@ -154,4 +154,4 @@ const styles = StyleSheet.create({
     
 });
 
-export default OnBoarding;
+export default Welcome;

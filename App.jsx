@@ -4,8 +4,8 @@ import { enableScreens } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import OnBoardingScreen from './src/screens/OnBoardingScreen';
-import HomeScreen from './src/screens/HomeScreen';
+import WelcomeScreen from './src/screens/WelcomeScreen';
+import HMScreen from './src/screens/HMScreen';
 import CreateHabitScreen from './src/screens/CreateHabitScreen';
 import HabitsListScreen from './src/screens/HabitsListScreen';
 
@@ -49,15 +49,15 @@ const App = () => {
                         </ImageBackground>
                   </View>
                   ) : (
-                        <Stack.Navigator initialRouteName={"OnBoardingScreen" }>
+                        <Stack.Navigator initialRouteName={"WelcomeScreen" }>
                               <Stack.Screen 
-                                    name="OnBoardingScreen" 
-                                    component={OnBoardingScreen} 
+                                    name="WelcomeScreen" 
+                                    component={WelcomeScreen} 
                                     options={{ headerShown: false }} 
                               />
                               <Stack.Screen 
-                                    name="HomeScreen" 
-                                    component={HomeScreen} 
+                                    name="HMScreen" 
+                                    component={HMScreen} 
                                     options={{ headerShown: false }} 
                               />
                               <Stack.Screen 

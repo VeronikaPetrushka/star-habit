@@ -28,7 +28,7 @@ const CreateHabit = ({ habitToEdit }) => {
             }
       
             await AsyncStorage.setItem('habits', JSON.stringify(updatedHabits));
-            navigation.navigate( habitToEdit ? 'HabitsListScreen' : 'HomeScreen', { habitName: habit });
+            navigation.navigate( habitToEdit ? 'HabitsListScreen' : 'HMScreen', { habitName: habit });
           } catch (error) {
             console.error('Error saving habit:', error);
           }

@@ -74,7 +74,7 @@ const HabitsList = ({ habitName }) => {
             <View style={styles.container}>
 
                 <View style={{alignItems: 'center', flexDirection: 'row', marginBottom: height * 0.05, width: '100%'}}>
-                    <TouchableOpacity style={{width: 47, height: 47, marginRight: 53}} onPress={() => navigation.navigate('HomeScreen')}>
+                    <TouchableOpacity style={{width: 47, height: 47, marginRight: 53}} onPress={() => navigation.navigate('HMScreen')}>
                         <Icons type={'back'} />
                     </TouchableOpacity>
                     <Text style={styles.title}>LIST OF HABITS</Text>

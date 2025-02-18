@@ -9,7 +9,7 @@ import Icons from "./Icons";
 
 const { height } = Dimensions.get('window');
 
-const Home = ({ habitName }) => {
+const HM = ({ habitName }) => {
     const navigation = useNavigation();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [createdHabit, setCreatedHabit] = useState('');
@@ -106,7 +106,7 @@ const Home = ({ habitName }) => {
                     )
                 }
 
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CreateHabitScreeen')}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CreateHabitScreen')}>
                     <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={styles.btnText}>Create a habit</Text>
                         <View style={{width: 27, height: 27, marginLeft: 15}}>
@@ -115,7 +115,7 @@ const Home = ({ habitName }) => {
                     </ImageBackground>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('HabitsListScreeen')}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('HabitsListScreen')}>
                     <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={styles.btnText}>List of habits</Text>
                         <View style={{width: 27, height: 27, marginLeft: 15}}>
@@ -274,4 +274,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Home;
+export default HM;

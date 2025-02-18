@@ -1,12 +1,10 @@
 import { View } from "react-native"
-import Home from "../components/Home"
+import Welcome from "../components/Welcome"
 
-const HomeScreen = ({ route }) => {
-    const { habitName } = route.params || {};
-
+const WelcomeScreen = () => {
     return (
         <View style={styles.container}>
-            <Home habitName={habitName} />
+            <Welcome />
         </View>
     )
 }; 
@@ -18,4 +16,4 @@ const styles = {
     }
 }
 
-export default HomeScreen;
+export default WelcomeScreen;

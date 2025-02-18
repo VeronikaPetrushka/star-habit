@@ -1,10 +1,12 @@
 import { View } from "react-native"
-import OnBoarding from "../components/OnBoarding"
+import HM from "../components/HM"
 
-const OnBoardingScreen = () => {
+const HMScreen = ({ route }) => {
+    const { habitName } = route.params || {};
+
     return (
         <View style={styles.container}>
-            <OnBoarding />
+            <HM habitName={habitName} />
         </View>
     )
 }; 
@@ -16,4 +18,4 @@ const styles = {
     }
 }
 
-export default OnBoardingScreen;
+export default HMScreen;
