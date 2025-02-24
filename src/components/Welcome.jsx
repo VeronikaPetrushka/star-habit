@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "space-between",
-        backgroundColor: "#000",
+        backgroundColor: "#1b18fd",
     },
 
     image: {

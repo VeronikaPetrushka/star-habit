@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text,TouchableOpacity, StyleSheet, Dimensions, Modal, ScrollView, TextInput, ImageBackground } from "react-native"
+import { View, Text,TouchableOpacity, StyleSheet, Dimensions, Modal, ScrollView, TextInput } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
@@ -70,7 +70,6 @@ const HabitsList = ({ habitName }) => {
     };
 
     return (
-        <ImageBackground source={require('../assets/loader.png')} style={{flex: 1}}>
             <View style={styles.container}>
 
                 <View style={{alignItems: 'center', flexDirection: 'row', marginBottom: height * 0.05, width: '100%'}}>
@@ -166,7 +165,6 @@ const HabitsList = ({ habitName }) => {
                 )}
 
                 </View>
-        </ImageBackground>
     )
 };
 
@@ -176,7 +174,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         padding: 25,
-        paddingTop: height * 0.07
+        paddingTop: height * 0.07,
+        backgroundColor: '#1b18fd'
     },
 
     title: {
@@ -230,7 +229,7 @@ const styles = StyleSheet.create({
     },
 
     modalContent: {
-        backgroundColor: '#000',
+        backgroundColor: '#121093',
         borderWidth: 1,
         borderColor: '#8a650d',
         paddingHorizontal: 30,

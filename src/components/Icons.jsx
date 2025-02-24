@@ -7,10 +7,6 @@ const Icons = ({ type, light }) => {
   let iconStyle = [styles.icon];
 
   switch (type) {
-    // case '1':
-    //   imageSource = require('../assets/panel/1.png');
-    //   active && iconStyle.push(styles.active);
-    //   break;
     case 'plus':
       imageSource = require('../assets/icons/plus.png');
       break;

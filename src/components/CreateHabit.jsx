@@ -36,7 +36,6 @@ const CreateHabit = ({ habitToEdit }) => {
       };      
 
     return (
-        <ImageBackground source={require('../assets/loader.png')} style={{flex: 1}}>
             <View style={styles.container}>
 
                 <View style={{alignItems: 'center', marginBottom: height * 0.05, width: '100%', flexDirection: 'row'}}>
@@ -46,7 +45,7 @@ const CreateHabit = ({ habitToEdit }) => {
                     <Text style={[styles.label, {fontSize: 20, lineHeight: 24.2, marginBottom: 0}]}>{ habitToEdit ? 'EDIT A HABIT' : 'CREATE A HABIT'}</Text>
                 </View>
 
-                <ScrollView style={{width: '100%'}}>
+                {/* <ScrollView style={{width: '100%'}}> */}
                     <Text style={styles.label}>HABIT NAME</Text>
                     <TextInput
                         style={styles.input}
@@ -119,10 +118,9 @@ const CreateHabit = ({ habitToEdit }) => {
                     </TouchableOpacity>
 
                     <View style={{height: 50}} />
-                </ScrollView>
+                {/* </ScrollView> */}
 
                 </View>
-        </ImageBackground>
     )
 };
 
@@ -132,7 +130,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         padding: 25,
-        paddingTop: height * 0.07
+        paddingTop: height * 0.07,
+        backgroundColor: '#1b18fd'
     },
 
     label: {

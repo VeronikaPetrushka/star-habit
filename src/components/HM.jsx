@@ -63,7 +63,6 @@ const HM = ({ habitName }) => {
     };
 
     return (
-        <ImageBackground source={require('../assets/loader.png')} style={{flex: 1}}>
             <View style={styles.container}>
 
                 <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', alignSelf: 'flex-start', marginBottom: 10}}>
@@ -147,7 +146,6 @@ const HM = ({ habitName }) => {
                 )}
 
                 </View>
-        </ImageBackground>
     )
 };
 
@@ -157,7 +155,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         padding: 25,
-        paddingTop: height * 0.07
+        paddingTop: height * 0.07,
+        backgroundColor: '#1b18fd'
     },
 
     title: {
@@ -209,12 +208,11 @@ const styles = StyleSheet.create({
     },
 
     modalContent: {
-        backgroundColor: '#000',
+        backgroundColor: '#121093',
         borderWidth: 1,
         borderColor: '#8a650d',
         paddingHorizontal: 30,
         paddingVertical: 34,
-        borderRadius: 15,
         width: '85%',
         zIndex: 2,
         alignItems: 'center'
