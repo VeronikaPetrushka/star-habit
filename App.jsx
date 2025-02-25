@@ -4,7 +4,7 @@ import { enableScreens } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import WelcomeScreen from './src/screens/WelcomeScreen';
+import StartScreen from './src/screens/StartScreen';
 import HMScreen from './src/screens/HMScreen';
 import CreateHabitScreen from './src/screens/CreateHabitScreen';
 import HabitsListScreen from './src/screens/HabitsListScreen';
@@ -15,13 +15,13 @@ enableScreens();
 
 const Stack = createStackNavigator();
 
+const loader = require('./src/assets/loader.png');
+
 const App = () => {
       const [loaderIsEnded, setLoaderIsEnded] = useState(false);
 
       const loaderAnim = useRef(new Animated.Value(0)).current;
-  
-      const loader = require('./src/assets/loader.png');
-  
+    
       useEffect(() => {
           Animated.timing(loaderAnim, {
               toValue: 1,
@@ -49,10 +49,10 @@ const App = () => {
                         </ImageBackground>
                   </View>
                   ) : (
-                        <Stack.Navigator initialRouteName={"WelcomeScreen" }>
+                        <Stack.Navigator initialRouteName={"StartScreen" }>
                               <Stack.Screen 
-                                    name="WelcomeScreen" 
-                                    component={WelcomeScreen} 
+                                    name="StartScreen" 
+                                    component={StartScreen} 
                                     options={{ headerShown: false }} 
                               />
                               <Stack.Screen 

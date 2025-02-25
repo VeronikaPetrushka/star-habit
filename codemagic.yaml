@@ -8,10 +8,10 @@ workflows:
         environment:
           ios_signing:
             distribution_type: app_store
-            bundle_identifier: com.StarHabit2024
+            bundle_identifier: com.starryFlows2024
           vars:
             APP_STORE_APPLE_ID: 6741782323
-            BUNDLE_ID: "com.StarHabit2024"
+            BUNDLE_ID: "com.starryFlows2024"
             XCODE_WORKSPACE: "StarHabit.xcworkspace"
             XCODE_SCHEME: "StarHabit"
         scripts:

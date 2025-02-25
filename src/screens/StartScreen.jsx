@@ -1,10 +1,10 @@
 import { View } from "react-native"
-import Welcome from "../components/Welcome"
+import Start from "../components/Start"
 
-const WelcomeScreen = () => {
+const StartScreen = () => {
     return (
         <View style={styles.container}>
-            <Welcome />
+            <Start />
         </View>
     )
 }; 
@@ -16,4 +16,4 @@ const styles = {
     }
 }
 
-export default WelcomeScreen;
+export default StartScreen;

@@ -33,7 +33,7 @@ const StarLoader = () => {
     animateStar(star3Anim, 500);
   }, []);
 
-  const getAnimatedStyle = (anim, xOffset, size) => ({
+  const getStyle = (anim, xOffset, size) => ({
     transform: [
       { translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [0, -20] }) },
       { translateX: anim.interpolate({ inputRange: [0, 1], outputRange: [xOffset, 0] }) },
@@ -46,13 +46,13 @@ const StarLoader = () => {
 
   return (
     <View style={styles.loaderContainer}>
-      <Animated.View style={[styles.star, getAnimatedStyle(star1Anim, 60, 32)]}>
+      <Animated.View style={[styles.star, getStyle(star1Anim, 60, 32)]}>
         <StarSVG />
       </Animated.View>
-      <Animated.View style={[styles.star, getAnimatedStyle(star2Anim, 40, 24)]}>
+      <Animated.View style={[styles.star, getStyle(star2Anim, 40, 24)]}>
         <StarSVG />
       </Animated.View>
-      <Animated.View style={[styles.star, getAnimatedStyle(star3Anim, 20, 18)]}>
+      <Animated.View style={[styles.star, getStyle(star3Anim, 20, 18)]}>
         <StarSVG />
       </Animated.View>
     </View>
@@ -69,6 +69,7 @@ const StarSVG = () => (
 );
 
 const styles = StyleSheet.create({
+
   loaderContainer: {
     position: 'absolute',
     top: '50%',
@@ -77,9 +78,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+
   star: {
     position: 'absolute',
   },
+
 });
 
 export default StarLoader;

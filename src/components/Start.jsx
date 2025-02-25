@@ -5,27 +5,27 @@ import Icons from "./Icons";
 
 const { height } = Dimensions.get("window");
 
-const images = [
+const imgs = [
     require("../assets/decor/star.png"),
     require("../assets/decor/sparkles.png"),
     require("../assets/decor/stars.png"),
 ];
 
-const titles = [
-    "Welcome to Star Leap",
+const ttls = [
+    "Welcome to Starry Flows",
     "Add habits and track progress!",
     "Choose a goal and get started!",
 ];
 
-const subtitles = [
+const subttls = [
     "– the habit tracker that motivates you to shine!",
     "The more stars, the better your progress!",
     "",
 ];
 
-const buttonTexts = ["Next", "Continue", "Start"];
+const btnsTxt = ["Next", "Continue", "Start"];
 
-const Welcome = () => {
+const Start = () => {
     const navigation = useNavigation();
     const [step, setStep] = useState(0);
 
@@ -38,26 +38,26 @@ const Welcome = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <Image source={images[step]} style={[styles.image, { height: height * (step === 1 ? 0.59 : step === 2 ? 0.52 : 0.38), resizeMode: step === 0 ? 'contain' : 'cover', marginTop: step === 0 ? height * 0.07 : 0}]} />
+        <View style={styling.container}>
+            <Image source={imgs[step]} style={[styling.image, { height: height * (step === 1 ? 0.59 : step === 2 ? 0.52 : 0.38), resizeMode: step === 0 ? 'contain' : 'cover', marginTop: step === 0 ? height * 0.07 : 0}]} />
             
-            <View style={styles.infoContainer}>
-                <Text style={styles.title}>
-                    {titles[step].split("Star Leap").map((part, index) =>
-                        index === 1 ? <Text key={index} style={styles.highlight}>Star Leap</Text> : part
+            <View style={styling.infoContainer}>
+                <Text style={styling.title}>
+                    {ttls[step].split("Starry Flows").map((part, index) =>
+                        index === 1 ? <Text key={index} style={styling.highlight}>Starry Flows</Text> : part
                     )}
                 </Text>
                 
-                {subtitles[step] !== "" && <Text style={styles.text}>{subtitles[step]}</Text>}
+                {subttls[step] !== "" && <Text style={styling.text}>{subttls[step]}</Text>}
 
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={handleNext}>
-                        <Image source={require("../assets/buttons/left.png")} style={styles.buttonImage} />
-                        <Text style={styles.buttonText}>{buttonTexts[step]}</Text>
+                <View style={styling.btnsContainer}>
+                    <TouchableOpacity style={styling.btn} onPress={handleNext}>
+                        <Image source={require("../assets/buttons/left.png")} style={styling.btnImg} />
+                        <Text style={styling.btnText}>{btnsTxt[step]}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.button, styles.rightButton]} onPress={handleNext}>
-                        <Image source={require("../assets/buttons/right.png")} style={styles.buttonImage} />
-                        <View style={styles.iconWrapper}>
+                    <TouchableOpacity style={[styling.btn, styling.rightBtn]} onPress={handleNext}>
+                        <Image source={require("../assets/buttons/right.png")} style={styling.btnImg} />
+                        <View style={styling.icon}>
                             <Icons type={step === 2 ? "rocket" : "next"} />
                         </View>
                     </TouchableOpacity>
@@ -67,7 +67,7 @@ const Welcome = () => {
     );
 };
 
-const styles = StyleSheet.create({
+const styling = StyleSheet.create({
 
     container: {
         flex: 1,
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
 
-    buttonContainer: {
+    btnsContainer: {
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-around",
@@ -117,20 +117,20 @@ const styles = StyleSheet.create({
         marginBottom: 50,
     },
 
-    button: {
+    btn: {
         width: 250,
         height: 99,
         alignItems: "center",
         justifyContent: "center",
     },
 
-    buttonImage: {
+    btnImg: {
         width: "100%",
         height: "100%",
         resizeMode: "contain",
     },
 
-    buttonText: {
+    btnText: {
         fontWeight: "500",
         fontSize: 24,
         color: "#241b03",
@@ -138,13 +138,13 @@ const styles = StyleSheet.create({
         top: 35,
     },
 
-    rightButton: {
+    rightBtn: {
         width: 111,
         height: 92,
         marginLeft: -20,
     },
 
-    iconWrapper: {
+    icon: {
         width: 49,
         height: 49,
         position: "absolute",
@@ -154,4 +154,4 @@ const styles = StyleSheet.create({
     
 });
 
-export default Welcome;
+export default Start;

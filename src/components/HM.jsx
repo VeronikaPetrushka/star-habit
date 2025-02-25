@@ -13,13 +13,13 @@ const HM = ({ habitName }) => {
     const navigation = useNavigation();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [createdHabit, setCreatedHabit] = useState('');
-    const [habits, setHabits] = useState([]);
+    const [habits, setH] = useState([]);
 
     const loadHabits = async () => {
         try {
             const storedHabits = await AsyncStorage.getItem('habits');
             if (storedHabits) {
-                setHabits(JSON.parse(storedHabits));
+                setH(JSON.parse(storedHabits));
             }
         } catch (error) {
             console.log('Error loading habits from AsyncStorage:', error);
@@ -36,7 +36,7 @@ const HM = ({ habitName }) => {
         try {
             const updatedHabits = [...habits];
             updatedHabits[index].stars += 1;
-            setHabits(updatedHabits);
+            setH(updatedHabits);
     
             await AsyncStorage.setItem('habits', JSON.stringify(updatedHabits));
         } catch (error) {
@@ -63,11 +63,11 @@ const HM = ({ habitName }) => {
     };
 
     return (
-            <View style={styles.container}>
+            <View style={styling.container}>
 
                 <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', alignSelf: 'flex-start', marginBottom: 10}}>
                     <Image source={require('../assets/decor/star.png')} style={{width: 114, height: 114, resizeMode: 'contain'}} />
-                    <Text style={styles.title}>GET USED TO THE GOOD WITH US!</Text>
+                    <Text style={styling.title}>GET USED TO THE GOOD WITH US!</Text>
                 </View>
 
                 <View style={{flexGrow: 1}} />
@@ -75,20 +75,20 @@ const HM = ({ habitName }) => {
                 {
                     habits.length > 0 && (
                         <View style={{width: '100%', alignItems: 'center'}}>
-                            <Text style={[styles.subTitle, {marginBottom: 20, alignSelf: 'flex-start'}]}>PROGRESS:</Text>
+                            <Text style={[styling.subTitle, {marginBottom: 20, alignSelf: 'flex-start'}]}>PROGRESS:</Text>
                             <ScrollView style={{width: '100%', height: 120, marginBottom: 30}}>
                                 {
                                     habits.map((habit, index) => (
-                                        <View key={index} style={styles.card}>
+                                        <View key={index} style={styling.card}>
                                             <ProgressBar stars={habit.stars} />
                                             <View style={{width: 150, marginLeft: 20}}>
-                                                <Text style={styles.cardName} numberOfLines={1} ellipsizeMode='tail'>{habit.name}</Text>
-                                                <Text style={styles.cardText}>to add a star for the day click the button</Text>
+                                                <Text style={styling.cardName} numberOfLines={1} ellipsizeMode='tail'>{habit.name}</Text>
+                                                <Text style={styling.cardText}>to add a star for the day click the button</Text>
                                             </View>
-                                            <TouchableOpacity style={styles.addBtn} onPress={() => updateHabitStars(index)}>
+                                            <TouchableOpacity style={styling.addBtn} onPress={() => updateHabitStars(index)}>
                                                 <LinearGradient
                                                     colors={['#c1a257', '#fff8ca']}
-                                                    style={styles.addBtn} 
+                                                    style={styling.addBtn} 
                                                     start={{ x: 1, y: 0 }}
                                                     end={{ x: 0, y: 0 }}
                                                 >
@@ -105,18 +105,18 @@ const HM = ({ habitName }) => {
                     )
                 }
 
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CreateHabitScreen')}>
+                <TouchableOpacity style={styling.btn} onPress={() => navigation.navigate('CreateHabitScreen')}>
                     <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={styles.btnText}>Create a habit</Text>
+                        <Text style={styling.btnText}>Create a habit</Text>
                         <View style={{width: 27, height: 27, marginLeft: 15}}>
                             <Icons type={'plus'} />
                         </View>
                     </ImageBackground>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('HabitsListScreen')}>
+                <TouchableOpacity style={styling.btn} onPress={() => navigation.navigate('HabitsListScreen')}>
                     <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={styles.btnText}>List of habits</Text>
+                        <Text style={styling.btnText}>List of habits</Text>
                         <View style={{width: 27, height: 27, marginLeft: 15}}>
                             <Icons type={'list'} />
                         </View>
@@ -130,15 +130,15 @@ const HM = ({ habitName }) => {
                         visible={isModalVisible}
                         onRequestClose={handleCloseModal}
                     >
-                        <View style={styles.modalContainer}>
-                            <BlurView style={styles.blurBackground} blurType="dark" blurAmount={4} />
-                            <View style={styles.modalContent}>
-                                <Text style={styles.modalTitle}>{createdHabit}</Text>
+                        <View style={styling.modalContainer}>
+                            <BlurView style={styling.blurBackground} blurType="dark" blurAmount={4} />
+                            <View style={styling.modalContent}>
+                                <Text style={styling.modalTitle}>{createdHabit}</Text>
                                 <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                                     <View style={{ width: 24, height: 24, marginRight: 5 }}>
                                         <Icons type={'selected'} light />
                                     </View>
-                                    <Text style={styles.modalText}>Habit successfully created</Text>
+                                    <Text style={styling.modalText}>Habit successfully created</Text>
                                 </View>
                             </View>
                         </View>
@@ -149,7 +149,7 @@ const HM = ({ habitName }) => {
     )
 };
 
-const styles = StyleSheet.create({
+const styling = StyleSheet.create({
 
     container: {
         flex: 1,
