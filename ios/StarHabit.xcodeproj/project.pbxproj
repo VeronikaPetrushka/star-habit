@@ -263,7 +263,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = StarHabit/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Starry Flows";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -275,7 +275,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.starryFlows2024;
+				PRODUCT_BUNDLE_IDENTIFIER = com.StarHabit2024;
 				PRODUCT_NAME = StarHabit;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -292,7 +292,7 @@
 				CURRENT_PROJECT_VERSION = 10;
 				INFOPLIST_FILE = StarHabit/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Starry Flows";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -304,7 +304,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.starryFlows2024;
+				PRODUCT_BUNDLE_IDENTIFIER = com.StarHabit2024;
 				PRODUCT_NAME = StarHabit;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
