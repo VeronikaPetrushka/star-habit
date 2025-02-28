@@ -13,12 +13,12 @@ const imgs = [
 
 const ttls = [
     "Welcome to Starry Flows",
-    "Add habits and track progress!",
+    "Add tasks and track progress!",
     "Choose a goal and get started!",
 ];
 
 const subttls = [
-    "– the habit tracker that motivates you to shine!",
+    "– the task tracker that motivates you to shine!",
     "The more stars, the better your progress!",
     "",
 ];
