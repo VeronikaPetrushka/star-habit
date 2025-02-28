@@ -6,31 +6,31 @@ import Icons from "./Icons";
 
 const { height } = Dimensions.get('window');
 
-const CreateHabit = ({ habitToEdit }) => {
+const CreateTask = ({ taskToEdit }) => {
     const navigation = useNavigation();
-    const [habit, setHabit] = useState(habitToEdit?.name || '');
-    const [selectedFrequency, setSelectedFrequency] = useState(habitToEdit?.frequency || null);
-    const [stars, setStars] = useState(habitToEdit?.stars || 0);
+    const [h, setTask] = useState(taskToEdit?.name || '');
+    const [selectedFrequency, setSelectedFrequency] = useState(taskToEdit?.frequency || null);
+    const [stars, setStars] = useState(taskToEdit?.stars || 0);
 
-    const handleSave = async () => {
-        if (habit && selectedFrequency) {
+    const handleCreate = async () => {
+        if (h && selectedFrequency) {
           try {
-            const newHabit = { name: habit, frequency: selectedFrequency, stars: stars };
-            const existingHabits = JSON.parse(await AsyncStorage.getItem('habits')) || [];
+            const newHabit = { name: h, frequency: selectedFrequency, stars: stars };
+            const existingHabits = JSON.parse(await AsyncStorage.getItem('tasks')) || [];
       
             let updatedHabits;
-            if (habitToEdit) {
+            if (taskToEdit) {
               updatedHabits = existingHabits.map(h =>
-                h.name === habitToEdit.name ? newHabit : h
+                h.name === taskToEdit.name ? newHabit : h
               );
             } else {
               updatedHabits = [...existingHabits, newHabit];
             }
       
-            await AsyncStorage.setItem('habits', JSON.stringify(updatedHabits));
-            navigation.navigate( habitToEdit ? 'HabitsListScreen' : 'HMScreen', { habitName: habit });
+            await AsyncStorage.setItem('tasks', JSON.stringify(updatedHabits));
+            navigation.navigate( taskToEdit ? 'TasksListScreen' : 'TaskManagerScreen', { taskName: h });
           } catch (error) {
-            console.error('Error saving habit:', error);
+            console.error('Error saving task:', error);
           }
         }
       };      
@@ -42,17 +42,17 @@ const CreateHabit = ({ habitToEdit }) => {
                     <TouchableOpacity style={{width: 47, height: 47, marginRight: 53}} onPress={() => navigation.goBack('')}>
                         <Icons type={'back'} />
                     </TouchableOpacity>
-                    <Text style={[styles.label, {fontSize: 20, lineHeight: 24.2, marginBottom: 0}]}>{ habitToEdit ? 'EDIT A HABIT' : 'CREATE A HABIT'}</Text>
+                    <Text style={[styles.label, {fontSize: 20, lineHeight: 24.2, marginBottom: 0}]}>{ taskToEdit ? 'EDIT A TASK' : 'CREATE A TASK'}</Text>
                 </View>
 
                 {/* <ScrollView style={{width: '100%'}}> */}
-                    <Text style={styles.label}>HABIT NAME</Text>
+                    <Text style={styles.label}>TASK NAME</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Type here..."
                         placeholderTextColor="#999"
-                        value={habit}
-                        onChangeText={setHabit}
+                        value={h}
+                        onChangeText={setTask}
                     />
 
                     <Text style={styles.label}>EXECUTION FREQUENCY</Text>
@@ -111,9 +111,9 @@ const CreateHabit = ({ habitToEdit }) => {
                     </TouchableOpacity>
 
 
-                    <TouchableOpacity style={styles.btn} onPress={handleSave}>
+                    <TouchableOpacity style={styles.btn} onPress={handleCreate}>
                         <ImageBackground source={require('../assets/buttons/left.png')} style={{width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style={styles.btnText}>Save habit</Text>
+                            <Text style={styles.btnText}>Save task</Text>
                         </ImageBackground>
                     </TouchableOpacity>
 
@@ -189,4 +189,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default CreateHabit;
+export default CreateTask;

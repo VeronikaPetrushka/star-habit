@@ -31,7 +31,7 @@ const Start = () => {
 
     const handleNext = () => {
         if (step === 2) {
-            navigation.navigate("HMScreen");
+            navigation.navigate("TaskManagerScreen");
         } else {
             setStep((prev) => prev + 1);
         }

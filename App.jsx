@@ -5,9 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import StartScreen from './src/screens/StartScreen';
-import HMScreen from './src/screens/HMScreen';
-import CreateHabitScreen from './src/screens/CreateHabitScreen';
-import HabitsListScreen from './src/screens/HabitsListScreen';
+import TaskManagerScreen from './src/screens/TaskManagerScreen';
+import CreateTaskScreen from './src/screens/CreateTaskScreen';
+import TasksListScreen from './src/screens/TasksListScreen';
 
 import StarLoader from './src/components/StarLoader';
 
@@ -56,18 +56,18 @@ const App = () => {
                                     options={{ headerShown: false }} 
                               />
                               <Stack.Screen 
-                                    name="HMScreen" 
-                                    component={HMScreen} 
+                                    name="TaskManagerScreen" 
+                                    component={TaskManagerScreen} 
                                     options={{ headerShown: false }} 
                               />
                               <Stack.Screen 
-                                    name="CreateHabitScreen" 
-                                    component={CreateHabitScreen} 
+                                    name="CreateTaskScreen" 
+                                    component={CreateTaskScreen} 
                                     options={{ headerShown: false }} 
                               />
                               <Stack.Screen 
-                                    name="HabitsListScreen" 
-                                    component={HabitsListScreen} 
+                                    name="TasksListScreen" 
+                                    component={TasksListScreen} 
                                     options={{ headerShown: false }} 
                               />
                         </Stack.Navigator>

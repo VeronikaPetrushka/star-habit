@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import Svg, { Circle, Text as SvgText } from 'react-native-svg';
 import Icons from './Icons';
 
-const ProgressBar = ({ stars }) => {
+const Progress = ({ stars }) => {
     const radius = 28;
     const strokeWidth = 8;
     const circumference = 2 * Math.PI * radius;
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ProgressBar;
+export default Progress;

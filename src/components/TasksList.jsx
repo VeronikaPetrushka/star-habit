@@ -1,60 +1,60 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text,TouchableOpacity, StyleSheet, Dimensions, Modal, ScrollView, TextInput } from "react-native"
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Modal, ScrollView, TextInput } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { BlurView } from '@react-native-community/blur';
-import ProgressBar from './ProgressBar';
+import Progress from './Progress';
 import Icons from "./Icons";
 
 const { height } = Dimensions.get('window');
 
-const HabitsList = ({ habitName }) => {
+const TasksList = ({ taskName }) => {
     const navigation = useNavigation();
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [editedHabit, setEditedHabit] = useState('');
-    const [habits, setHabits] = useState([]);
+    const [mv, setMV] = useState(false);
+    const [editedTask, setEditedTask] = useState('');
+    const [tasks, setTasks] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const loadHabits = async () => {
+    const loadTasks = async () => {
         try {
-            const storedHabits = await AsyncStorage.getItem('habits');
-            if (storedHabits) {
-                setHabits(JSON.parse(storedHabits));
+            const storedTasks = await AsyncStorage.getItem('tasks');
+            if (storedTasks) {
+                setTasks(JSON.parse(storedTasks));
             }
         } catch (error) {
-            console.log('Error loading habits from AsyncStorage:', error);
+            console.log('Error loading tasks from AsyncStorage:', error);
         }
     };
 
     useFocusEffect(
         useCallback(() => {
-            loadHabits();
+            loadTasks();
           }, [])
         );
 
     const handleDelete = async (name) => {
         try {
-          const storedHabits = await AsyncStorage.getItem('habits');
-          if (storedHabits) {
-            const habitsArray = JSON.parse(storedHabits);
-            const updatedHabits = habitsArray.filter(habit => habit.name !== name);
-            await AsyncStorage.setItem('habits', JSON.stringify(updatedHabits));
-            setHabits(updatedHabits);
+          const storedTasks = await AsyncStorage.getItem('tasks');
+          if (storedTasks) {
+            const tasksArray = JSON.parse(storedTasks);
+            const updatedTasks = tasksArray.filter(task => task.name !== name);
+            await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
+            setTasks(updatedTasks);
           }
         } catch (error) {
-          console.log('Error deleting habit from AsyncStorage:', error);
+          console.log('Error deleting task from AsyncStorage:', error);
         }
       };   
       
-    const filteredHabits = habits.filter(habit => 
-        habit.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredTasks = tasks.filter(i => 
+        i.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     useEffect(() => {
-        if (habitName) {
-          setEditedHabit(habitName);
-          setIsModalVisible(true);
+        if (taskName) {
+          setEditedTask(taskName);
+          setMV(true);
 
           const timer = setTimeout(() => {
             handleCloseModal();
@@ -62,28 +62,28 @@ const HabitsList = ({ habitName }) => {
 
           return () => clearTimeout(timer);
         }
-      }, [habitName]);
+      }, [taskName]);
 
     const handleCloseModal = () => {
-        setIsModalVisible(false);
-        setEditedHabit('');
+        setMV(false);
+        setEditedTask('');
     };
 
     return (
             <View style={styles.container}>
 
                 <View style={{alignItems: 'center', flexDirection: 'row', marginBottom: height * 0.05, width: '100%'}}>
-                    <TouchableOpacity style={{width: 47, height: 47, marginRight: 53}} onPress={() => navigation.navigate('HMScreen')}>
+                    <TouchableOpacity style={{width: 47, height: 47, marginRight: 53}} onPress={() => navigation.navigate('TaskManagerScreen')}>
                         <Icons type={'back'} />
                     </TouchableOpacity>
-                    <Text style={styles.title}>LIST OF HABITS</Text>
+                    <Text style={styles.title}>LIST OF TASKS</Text>
                 </View>
 
                 {
-                    filteredHabits.length > 0 && (
+                    filteredTasks.length > 0 && (
                         <TextInput
                             style={styles.searchBar}
-                            placeholder="Search habits..."
+                            placeholder="Search tasks..."
                             placeholderTextColor="#999"
                             value={searchQuery}
                             onChangeText={setSearchQuery}
@@ -92,20 +92,20 @@ const HabitsList = ({ habitName }) => {
                 }
 
                 {
-                    filteredHabits.length > 0 ? (
+                    filteredTasks.length > 0 ? (
                         <ScrollView style={{width: '100%'}}>
                             {
-                                filteredHabits.map((habit, index) => (
+                                filteredTasks.map((task, index) => (
                                     <View key={index} style={styles.card}>
-                                        <View style={{width: '100%', alignItems: 'flex-star', flexDirection: 'row', marginBottom: 34}}>
-                                            <ProgressBar stars={habit.stars} />
+                                        <View style={{width: '100%', alignItems: 'flex-start', flexDirection: 'row', marginBottom: 34}}>
+                                            <Progress stars={task.stars} />
                                             <View style={{marginLeft: 20, width: '70%'}}>
-                                                <Text style={styles.cardName} numberOfLines={1} ellipsizeMode='tail'>{habit.name}</Text>
-                                                <Text style={styles.cardText}>Execution frequency: {habit.frequency}</Text>
+                                                <Text style={styles.cardName} numberOfLines={1} ellipsizeMode='tail'>{task.name}</Text>
+                                                <Text style={styles.cardText}>Execution frequency: {task.frequency}</Text>
                                             </View>
                                         </View>
                                         <View style={{width: '100%', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                            <TouchableOpacity style={styles.btn} onPress={() => handleDelete(habit.name)}>
+                                            <TouchableOpacity style={styles.btn} onPress={() => handleDelete(task.name)}>
                                                 <LinearGradient
                                                     colors={['#c1a257', '#fff8ca']}
                                                     style={styles.btn} 
@@ -118,7 +118,7 @@ const HabitsList = ({ habitName }) => {
                                                     </View>
                                                 </LinearGradient>
                                             </TouchableOpacity>
-                                            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CreateHabitScreen', {habitToEdit: habit})}>
+                                            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('CreateTaskScreen', {taskToEdit: task})}>
                                                 <LinearGradient
                                                     colors={['#c1a257', '#fff8ca']}
                                                     style={styles.btn} 
@@ -138,33 +138,10 @@ const HabitsList = ({ habitName }) => {
                             <View style={{height: 100}} />
                         </ScrollView>
                     ) : (
-                        <Text style={styles.noText}>There is no habits right now</Text>
+                        <Text style={styles.noText}>There are no tasks right now</Text>
                     )
                 }
-
-                {isModalVisible && (
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        visible={isModalVisible}
-                        onRequestClose={handleCloseModal}
-                    >
-                        <View style={styles.modalContainer}>
-                            <BlurView style={styles.blurBackground} blurType="dark" blurAmount={4} />
-                            <View style={styles.modalContent}>
-                                <Text style={styles.modalTitle}>{editedHabit}</Text>
-                                <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                    <View style={{ width: 24, height: 24, marginRight: 5 }}>
-                                        <Icons type={'selected'} light />
-                                    </View>
-                                    <Text style={styles.modalText}>The habit has been edited</Text>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
-                )}
-
-                </View>
+            </View>
     )
 };
 
@@ -300,4 +277,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default HabitsList;
+export default TasksList;
